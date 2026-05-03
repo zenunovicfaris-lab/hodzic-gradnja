@@ -22,16 +22,152 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #F5A300; border-radius: 2px; }
+
+/* ─── Keyframe library ──────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
-::-webkit-scrollbar-thumb {
-  background: #F5A300;
-  border-radius: 3px;
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #d48c00;
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Yellow bar that grows left→right (section label underlines, dividers) */
+@keyframes bar-grow {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* Soft pulse on icon badges */
+@keyframes icon-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,163,0,0); }
+  50%       { box-shadow: 0 0 0 8px rgba(245,163,0,0.15); }
+}
+
+/* Hero badge shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Floating subtle bob (scroll indicator) */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+/* ─── Utility animation classes ─────────────────────────── */
+
+/* Trigger with JS by adding these classes when element enters viewport */
+.anim-fade-up {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.anim-fade-up.in-view {
+  animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: auto;
+}
+
+.anim-fade-in {
+  opacity: 0;
+  will-change: opacity;
+}
+.anim-fade-in.in-view {
+  animation: fade-in 0.6s ease both;
+  will-change: auto;
+}
+
+.anim-slide-left {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.anim-slide-left.in-view {
+  animation: slide-in-left 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: auto;
+}
+
+.anim-slide-right {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.anim-slide-right.in-view {
+  animation: slide-in-right 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: auto;
+}
+
+.anim-scale-in {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.anim-scale-in.in-view {
+  animation: scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: auto;
+}
+
+/* Stagger delays — apply alongside anim-* classes */
+.delay-1 { animation-delay: 0.08s !important; }
+.delay-2 { animation-delay: 0.16s !important; }
+.delay-3 { animation-delay: 0.24s !important; }
+.delay-4 { animation-delay: 0.32s !important; }
+.delay-5 { animation-delay: 0.40s !important; }
+.delay-6 { animation-delay: 0.48s !important; }
+
+/* ─── Hero badge shimmer ─────────────────────────────────── */
+.badge-shimmer {
+  background: linear-gradient(
+    105deg,
+    #F5A300 0%,
+    #F5A300 40%,
+    #ffd166 50%,
+    #F5A300 60%,
+    #F5A300 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 3s linear 1.5s infinite;
+}
+
+/* ─── Icon pulse (service cards, feature cards) ──────────── */
+.icon-pulse {
+  animation: icon-pulse 2.5s ease-in-out infinite;
+}
+
+/* ─── Scroll indicator bob ───────────────────────────────── */
+.scroll-bob {
+  animation: bob 1.6s ease-in-out infinite;
+}
+
+/* ─── Respect reduced motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up,
+  .anim-fade-in,
+  .anim-slide-left,
+  .anim-slide-right,
+  .anim-scale-in {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .badge-shimmer { animation: none; }
+  .icon-pulse    { animation: none; }
+  .scroll-bob    { animation: none; }
 }

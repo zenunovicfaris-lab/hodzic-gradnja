@@ -39,7 +39,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="relative h-24 w-72 flex-shrink-0">
+          <Link href="/" className="relative h-24 w-72 flex-shrink-0 hidden md:block">
             <Image
               src="/logo/logo.png"
               alt="Hodžić Gradnja"

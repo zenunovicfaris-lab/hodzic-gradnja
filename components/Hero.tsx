@@ -2,6 +2,19 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import Image from "next/image";
+
+const container = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.13, delayChildren: 0.25 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 28 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.65, ease: "easeOut" as const } },
+};
 
 export default function Hero() {
   return (
@@ -23,43 +36,63 @@ export default function Hero() {
       {/* Content */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex flex-col items-center gap-6 max-w-4xl"
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="flex flex-col items-center gap-6 max-w-4xl w-full"
         >
-          {/* Badge */}
-          <span className="inline-flex items-center gap-2 bg-[#F5A300] text-[#111111] text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-sm">
-            Pouzdano. Kvalitetno. Na vrijeme.
-          </span>
+          {/* Logo — vidljiv samo na mobileu, iznad badge-a */}
+          <motion.div variants={item} className="block md:hidden">
+            <div className="relative h-28 w-64">
+              <Image
+                src="/logo/logo.png"
+                alt="Hodžić Gradnja"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </motion.div>
 
-          {/* H1 */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-tight">
-            Od temelja do krova —{" "}
-            <span className="text-[#F5A300]">sve na jednom</span>{" "}
-            <span className="block">mjestu</span>
-          </h1>
+          {/* Badge with shimmer */}
+          <motion.div variants={item}>
+            <span className="badge-shimmer inline-flex items-center gap-2 text-[#111111] text-xs font-black uppercase tracking-widest px-5 py-2.5 rounded-sm">
+              Pouzdano. Kvalitetno. Na vrijeme.
+            </span>
+          </motion.div>
 
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-white/80 max-w-2xl leading-relaxed">
-            Izvodimo sve vrste građevinskih radova na području Srebrenika i okoline.
-          </p>
+          {/* H1 — Brand name */}
+          <motion.h1
+            variants={item}
+            className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tight"
+          >
+            <span className="text-[#F5A300]">HODŽIĆ</span>{" "}
+            <span className="text-white">GRADNJA</span>
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            variants={item}
+            className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white/85 tracking-wide"
+          >
+            Temelj sigurne budućnosti.
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-2">
+          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 mt-2 w-full sm:w-auto">
             <a
               href="#projekti"
-              className="bg-[#F5A300] text-[#111111] font-bold text-sm px-8 py-4 rounded-sm hover:bg-yellow-400 transition-all duration-200 tracking-wide uppercase hover:shadow-[0_0_30px_rgba(245,163,0,0.4)]"
+              className="bg-[#F5A300] text-[#111111] font-black text-sm px-8 py-4 rounded-sm tracking-wide uppercase transition-all duration-200 hover:bg-yellow-400 hover:shadow-[0_0_40px_rgba(245,163,0,0.5)] active:scale-95"
             >
               Pogledajte projekte
             </a>
             <a
               href="tel:+38761249069"
-              className="border-2 border-white text-white font-bold text-sm px-8 py-4 rounded-sm hover:bg-white hover:text-[#111111] transition-all duration-200 tracking-wide uppercase"
+              className="border-2 border-white text-white font-black text-sm px-8 py-4 rounded-sm tracking-wide uppercase transition-all duration-200 hover:bg-white hover:text-[#111111] active:scale-95"
             >
               Pozovite nas
             </a>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
@@ -67,15 +100,10 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-white/60"
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-white/50 scroll-bob"
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <ArrowDown size={24} />
-        </motion.div>
+        <ArrowDown size={22} />
       </motion.div>
     </section>
   );

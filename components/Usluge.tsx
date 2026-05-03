@@ -14,33 +14,33 @@ import {
 const usluge = [
   {
     icon: Layers,
-    title: "Betonski radovi",
-    desc: "Potporni zidovi, betonske ploče, betonska cokla za ograde, betonski bazeni, temelji i armirani beton.",
+    title: "Potporni zidovi",
+    desc: "Izgradnja čvrstih i dugotrajnih potpornih zidova — projektovanih da izdrže pritisak tla i vremena.",
+  },
+  {
+    icon: Building2,
+    title: "Izgradnja bazena",
+    desc: "Betonski bazeni rađeni po mjeri kupca — od iskopa i armature do završne obrade.",
   },
   {
     icon: ToyBrick,
-    title: "Zidarski i tesarski radovi",
-    desc: "Zidanje, oplata, tesarski radovi — kvalitetna izrada svake konstruktivne faze gradnje.",
+    title: "Betonske ploče",
+    desc: "Izrada temeljnih, međukatnih i krovnih betonskih ploča — precizno armirane i betonirane.",
+  },
+  {
+    icon: Wrench,
+    title: "Betonske cokle za ograde",
+    desc: "Čvrste betonske osnove za postavljanje svih vrsta ograda — trajno i estetski izvedeno.",
   },
   {
     icon: PaintBucket,
     title: "Fasaderski radovi",
-    desc: "Toplinska i zvučna izolacija, fasaderski završni radovi, oblaganje stiroporom iznutra i izvana.",
+    desc: "Izrada fasada, toplinska i zvučna izolacija, oblaganje stiroporom iznutra i izvana.",
   },
   {
     icon: Shovel,
-    title: "Zemljani radovi",
-    desc: "Iskopi, priprema terena i planiranje zemljišta za sve vrste gradnje i infrastrukturnih projekata.",
-  },
-  {
-    icon: Wrench,
-    title: "Adaptacije i rekonstrukcije",
-    desc: "Renovacije, dogradnje, rekonstrukcija postojećih objekata — dajemo im novi život i moderan izgled.",
-  },
-  {
-    icon: Building2,
-    title: "Kompletan objekat — od temelja do krova",
-    desc: "Preuzimamo cjelokupnu realizaciju gradnje: od temelja, grubih radova, krova do finiševa.",
+    title: "Zemljani radovi i iskopi",
+    desc: "Iskopi terena, priprema gradilišta i planiranje zemljišta za sve vrste građevinskih projekata.",
   },
 ];
 
@@ -63,15 +63,15 @@ function ServiceCard({
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
       className="group relative bg-white border border-gray-100 p-8 rounded-sm hover:shadow-xl transition-all duration-300 cursor-default overflow-hidden"
     >
       {/* Yellow left border on hover */}
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#F5A300] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom rounded-l-sm" />
 
       <div className="flex flex-col gap-4">
-        <div className="w-12 h-12 bg-[#F5A300]/10 rounded-sm flex items-center justify-center group-hover:bg-[#F5A300]/20 transition-colors duration-300">
-          <Icon size={24} className="text-[#F5A300]" strokeWidth={2} />
+        <div className="w-12 h-12 bg-[#F5A300]/10 rounded-sm flex items-center justify-center group-hover:bg-[#F5A300]/20 icon-pulse transition-colors duration-300">
+          <Icon size={24} className="text-[#F5A300] group-hover:scale-110 transition-transform duration-300" strokeWidth={2} />
         </div>
         <h3 className="text-lg font-bold text-[#111111] leading-tight">{title}</h3>
         <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
@@ -102,7 +102,7 @@ export default function Usluge() {
             Kompletna građevinska rješenja
           </h2>
           <p className="text-gray-500 text-lg leading-relaxed">
-            Od ideje do gotovog objekta — pratimo vas kroz svaki korak gradnje.
+            Od ideje do gotovog objekta — pratimo vas kroz svaki korak gradnje. Pored betonskih radova, nudimo i adaptacije objekata, zidanje, rad sa armiranim betonom i još mnogo toga.
           </p>
         </motion.div>
 

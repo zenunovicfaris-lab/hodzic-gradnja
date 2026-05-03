@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Shield, Clock, Handshake, HardHat } from "lucide-react";
 
@@ -27,9 +27,28 @@ const features = [
   },
 ];
 
+function useCounter(target: number, duration: number, active: boolean) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start: number | null = null;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / (duration * 1000), 1);
+      // ease-out curve
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [active, target, duration]);
+  return count;
+}
+
 export default function ZastoMi() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const counter = useCounter(100, 1.8, isInView);
 
   return (
     <section id="zasto-mi" className="py-24 bg-white">
@@ -39,7 +58,7 @@ export default function ZastoMi() {
           ref={sectionRef}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-16 max-w-2xl"
         >
           <span className="inline-block bg-[#F5A300] text-[#111111] text-xs font-black uppercase tracking-widest px-3 py-1.5 mb-4 rounded-sm">
@@ -62,10 +81,10 @@ export default function ZastoMi() {
                 key={f.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.1 }}
-                className="flex flex-col gap-3 p-6 border border-gray-100 rounded-sm hover:border-[#F5A300]/40 hover:shadow-md transition-all duration-300"
+                transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: "easeOut" }}
+                className="flex flex-col gap-3 p-6 border border-gray-100 rounded-sm hover:border-[#F5A300]/40 hover:shadow-md transition-all duration-300 group"
               >
-                <div className="w-10 h-10 bg-[#F5A300]/10 rounded-sm flex items-center justify-center">
+                <div className="w-10 h-10 bg-[#F5A300]/10 rounded-sm flex items-center justify-center icon-pulse group-hover:bg-[#F5A300]/25 transition-colors duration-300">
                   <f.icon size={20} className="text-[#F5A300]" strokeWidth={2} />
                 </div>
                 <h3 className="font-bold text-[#111111] text-base">{f.title}</h3>
@@ -74,15 +93,20 @@ export default function ZastoMi() {
             ))}
           </div>
 
-          {/* Right: Stat Card */}
+          {/* Right: Stat Card with animated counter */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
             className="bg-[#111111] rounded-sm p-10 lg:p-14 flex flex-col items-center justify-center text-center gap-6"
           >
             <div className="flex flex-col items-center gap-2">
-              <span className="text-8xl font-black text-[#F5A300] leading-none">100%</span>
+              <div className="flex items-end leading-none">
+                <span className="text-8xl font-black text-[#F5A300] tabular-nums">
+                  {counter}
+                </span>
+                <span className="text-5xl font-black text-[#F5A300] mb-1">%</span>
+              </div>
               <span className="text-white text-xl font-bold mt-2">Posvećenost svakom projektu</span>
             </div>
 
